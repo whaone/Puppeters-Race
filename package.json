@@ -1,0 +1,26 @@
+{
+  "name": "puppeters-race",
+  "version": "1.0.0",
+  "description": "Stripped out the complex browser-side setInterval injections. Puppeteer’s native page.on('response') interceptor works continuously on the backend as long as Strava's page updates its map data.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whaone/Puppeters-Race.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/whaone/Puppeters-Race/issues"
+  },
+  "homepage": "https://github.com/whaone/Puppeters-Race#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "puppeteer": "^25.0.2"
+  }
+}
