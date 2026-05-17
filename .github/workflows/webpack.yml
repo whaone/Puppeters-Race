@@ -1,28 +1,39 @@
-name: NodeJS with Webpack
+name: Strava Beacon Tracker Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js (Ubah ke Versi 22)
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '22' # <-- Memperbaiki masalah EBADENGINE Puppeteer
 
-    - name: Build
+    - name: Install Dependencies
       run: |
-        npm install
-        npx webpack
+        npm update-notifier false
+        npm install --yes # <-- Memaksa npm mengabaikan prompt interaktif
+      env:
+        CI: true # <-- Memaksa semua tools berjalan dalam mode Non-Interaktif
+
+    # Catatan: Jika workflow ini bertugas menjalankan Puppeteer secara langsung,
+    # kita wajib mengunduh browser Chrome-nya di environment Ubuntu runner ini.
+    - name: Install Puppeteer Chrome Binary
+      run: npx puppeteer browsers install chrome
+
+    - name: Run Build / Script
+      run: |
+        # Jika Anda menggunakan npx webpack, tambahkan flag --yes agar tidak bertanya lagi
+        npx webpack --yes 
+      env:
+        CI: true
