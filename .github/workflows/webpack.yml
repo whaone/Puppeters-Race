@@ -20,6 +20,9 @@ jobs:
         node-version: '22' # <-- Memperbaiki masalah EBADENGINE Puppeteer
 
     - name: Install Dependencies
+      run: npm install
+      env:
+        CI: true
       run: |
         npm update-notifier false
         npm install --yes # <-- Memaksa npm mengabaikan prompt interaktif
