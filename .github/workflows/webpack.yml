@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+  # Mengatur waktu maksimal berjalan agar tidak memakan kuota GitHub Actions Anda
+    timeout-minutes: 5 
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
@@ -27,7 +30,25 @@ jobs:
     - name: Install Puppeteer Chrome Binary
       run: npx puppeteer browsers install chrome
 
-    - name: Run Tracker Script
-      # PENTING: Ganti 'index.js' di bawah ini dengan nama file utama proyek Anda
-      # (Contoh jika nama filenya: server.js, app.js, atau index.js)
-      run: node index.js
+    - name: Run Tracker Script (Auto-Detect File)
+      run: |
+        if [ -f "server.js" ]; then
+          echo "Mendeseksi server.js... Menjalankan aplikasi."
+          node server.js
+        elif [ -f "app.js" ]; then
+          echo "Mendeteksi app.js... Menjalankan aplikasi."
+          node app.js
+        elif [ -f "main.js" ]; then
+          echo "Mendeteksi main.js... Menjalankan aplikasi."
+          node main.js
+        elif [ -f "index.js" ]; then
+          echo "Mendeteksi index.js... Menjalankan aplikasi."
+          node index.js
+        else
+          echo "========================================================="
+          echo "❌ ERROR: File utama tidak ditemukan di root folder!"
+          echo "Berikut adalah struktur file asli di dalam repositori Anda:"
+          echo "========================================================="
+          ls -R
+          exit 1
+        fi
