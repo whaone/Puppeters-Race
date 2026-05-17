@@ -14,28 +14,21 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Setup Node.js (Ubah ke Versi 22)
+    - name: Setup Node.js (Version 22)
       uses: actions/setup-node@v4
       with:
-        node-version: '22' # <-- Memperbaiki masalah EBADENGINE Puppeteer
+        node-version: '22' # Memperbaiki masalah EBADENGINE Puppeteer
 
     - name: Install Dependencies
-      run: npm ci
-        CI: true
-      run: |
-        npm update-notifier false
-        npm install --yes # <-- Memaksa npm mengabaikan prompt interaktif
+      run: npm install
       env:
-        CI: true # <-- Memaksa semua tools berjalan dalam mode Non-Interaktif
+        CI: true # Memastikan npm berjalan dalam mode non-interaktif (tanpa prompt otomatis)
 
-    # Catatan: Jika workflow ini bertugas menjalankan Puppeteer secara langsung,
-    # kita wajib mengunduh browser Chrome-nya di environment Ubuntu runner ini.
+    # Catatan: Diperlukan jika workflow ini bertugas menjalankan Puppeteer secara langsung
     - name: Install Puppeteer Chrome Binary
       run: npx puppeteer browsers install chrome
 
     - name: Run Build / Script
-      run: |
-        # Jika Anda menggunakan npx webpack, tambahkan flag --yes agar tidak bertanya lagi
-        npx webpack --yes 
+      run: npx webpack --yes 
       env:
         CI: true
