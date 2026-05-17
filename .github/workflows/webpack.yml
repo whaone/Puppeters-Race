@@ -1,4 +1,4 @@
-name: Strava Beacon Tracker Build
+name: Strava Beacon Tracker Run
 
 on:
   push:
@@ -17,21 +17,17 @@ jobs:
     - name: Setup Node.js (Version 22)
       uses: actions/setup-node@v4
       with:
-        node-version: '22' # Memperbaiki masalah EBADENGINE Puppeteer
+        node-version: '22'
 
     - name: Install Dependencies
       run: npm install
       env:
         CI: true
 
-    # Catatan: Diperlukan jika workflow ini bertugas menjalankan Puppeteer secara langsung
     - name: Install Puppeteer Chrome Binary
       run: npx puppeteer browsers install chrome
 
-    - name: Run Build / Script
-      # Kita instal dulu webpack & webpack-cli secara instan di server agar tidak muncul pertanyaan (yes/no)
-      run: |
-        npm install --no-save webpack webpack-cli
-        npx webpack
-      env:
-        CI: true
+    - name: Run Tracker Script
+      # PENTING: Ganti 'index.js' di bawah ini dengan nama file utama proyek Anda
+      # (Contoh jika nama filenya: server.js, app.js, atau index.js)
+      run: node index.js
