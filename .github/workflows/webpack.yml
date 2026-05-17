@@ -22,13 +22,16 @@ jobs:
     - name: Install Dependencies
       run: npm install
       env:
-        CI: true # Memastikan npm berjalan dalam mode non-interaktif (tanpa prompt otomatis)
+        CI: true
 
     # Catatan: Diperlukan jika workflow ini bertugas menjalankan Puppeteer secara langsung
     - name: Install Puppeteer Chrome Binary
       run: npx puppeteer browsers install chrome
 
     - name: Run Build / Script
-      run: npx webpack --yes 
+      # Kita instal dulu webpack & webpack-cli secara instan di server agar tidak muncul pertanyaan (yes/no)
+      run: |
+        npm install --no-save webpack webpack-cli
+        npx webpack
       env:
         CI: true
